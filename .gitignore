@@ -1,0 +1,40 @@
+# Личные тестовые файлы
+test.cpp
+test.exe
+
+# Скомпилированные файлы
+*.exe
+*.out
+*.app
+*.dll
+*.o
+*.obj
+*.a
+*.lib
+
+# Папки сборки
+build/
+bin/
+obj/
+Debug/
+Release/
+x64/
+cmake-build-*/
+
+# Служебные файлы Visual Studio / VS Code
+.vs/
+.vscode/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Временные файлы редакторов и ОС
+*.tmp
+*.temp
+*.log
+*.bak
+*~
+.DS_Store
+Thumbs.db
+
