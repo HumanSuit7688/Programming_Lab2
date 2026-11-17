@@ -10,3 +10,15 @@ void selection_sort(int (&arr)[N]);
 
 void gnome_sort(int (&arr)[N]);
 
+void merge(
+    int (&arr)[N],
+    int l,
+    int mid,
+    int r
+);
+
+void merge_sort(
+    int (&arr)[N],
+    int l,
+    int r
+);
