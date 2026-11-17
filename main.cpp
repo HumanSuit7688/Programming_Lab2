@@ -12,7 +12,7 @@ void sort_menu(int (&arr)[N]){
         }
 
         std::cout << "=== Сортировки ===\n"
-                    << "1 - Buble Sort\n"
+                    << "1 - Bubble Sort\n"
                     << "2 - Insertion Sort\n"
                     << "3 - Selection Sort\n"
                     << "4 - Gnome Sort\n"
@@ -41,6 +41,8 @@ void sort_menu(int (&arr)[N]){
             break;
         case 5:
             merge_sort(arr_copy, 0, N-1);
+            break;
+        case 0:
             break;
         default:
             std::cout << "Такого пункта меню нет\n";
@@ -101,7 +103,12 @@ int main() {
             break;
         
         case 4:
-            sort_menu(arr);
+            if (array_initialized) {
+                sort_menu(arr);
+            }
+            else {
+                std::cout << "Массив ещё не инициализирован\n";
+            }
             break;
         case 0:
             std::cout << "Выход.\n";

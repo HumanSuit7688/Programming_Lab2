@@ -74,9 +74,9 @@ void merge(int (&arr)[N], int l, int mid, int r) {
     int n1 = mid - l + 1;
     int n2 = r - mid;
 
-    int L[n1], R[n2];
+    int L[N], R[N];
 
-    for (int i = 0, i < n1; i++) {
+    for (int i = 0; i < n1; i++) {
         L[i] = arr[l + i];
     }
     for (int j = 0; j < n2; j++) {
@@ -112,8 +112,7 @@ void merge(int (&arr)[N], int l, int mid, int r) {
 
 
 void merge_sort(int (&arr)[N], int l, int r) {
-    int n = N;
-    if (r > l) {
+    if (l >= r) {
         return;
     }
 
@@ -123,5 +122,4 @@ void merge_sort(int (&arr)[N], int l, int r) {
     merge_sort(arr, mid + 1, r);
 
     merge(arr, l, mid, r);
-
 }
