@@ -1,4 +1,6 @@
 #include <iostream>
+#include <clocale>
+#include <chrono>
 #include "array_utils.hpp"
 #include "sorts.hpp"
 
@@ -27,21 +29,46 @@ void sort_menu(int (&arr)[N]){
         }
 
         switch (choice) {
-        case 1:
+        case 1: {
+            const auto start = std::chrono::steady_clock::now();
             bubble_sort(arr_copy);
+            const auto end = std::chrono::steady_clock::now();
+            const std::chrono::duration<double, std::micro> elapsed = end - start;
+            std::cout << elapsed.count() << " microseconds\n";
             break;
-        case 2:
+        }
+        case 2: {
+            const auto start = std::chrono::steady_clock::now();
             insertion_sort(arr_copy);
+            const auto end = std::chrono::steady_clock::now();
+            const std::chrono::duration<double, std::micro> elapsed = end - start;
+            std::cout << elapsed.count() << " microseconds\n";
             break;
-        case 3:
+        }
+        case 3: {
+            const auto start = std::chrono::steady_clock::now();
             selection_sort(arr_copy);
+            const auto end = std::chrono::steady_clock::now();
+            const std::chrono::duration<double, std::micro> elapsed = end - start;
+            std::cout << elapsed.count() << " microseconds\n";
             break;
-        case 4:
+        }
+        case 4: {
+            const auto start = std::chrono::steady_clock::now();
             gnome_sort(arr_copy);
+            const auto end = std::chrono::steady_clock::now();
+            const std::chrono::duration<double, std::micro> elapsed = end - start;
+            std::cout << elapsed.count() << " microseconds\n";
             break;
-        case 5:
+        }
+        case 5: {
+            const auto start = std::chrono::steady_clock::now();
             merge_sort(arr_copy, 0, N-1);
+            const auto end = std::chrono::steady_clock::now();
+            const std::chrono::duration<double, std::micro> elapsed = end - start;
+            std::cout << elapsed.count() << " microseconds\n";
             break;
+        }
         case 0:
             break;
         default:
@@ -52,12 +79,14 @@ void sort_menu(int (&arr)[N]){
         if (choice >= 1 && choice <= 5){
             std::cout << "Отсортированный массив:\n";
             output_array(arr_copy);
+            
         }
     }
 
 }
 
 int main() {
+    setlocale(LC_ALL, "");
     int arr[N]{};
     bool array_initialized = false;
     int choice = -1;
