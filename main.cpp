@@ -186,6 +186,11 @@ void search_menu(int (&arr)[N]){
 
             int amount = indexes.size();
             std::cout << "Неотсортированный массив: " << elapsed.count() << " microseconds\n";
+            std::cout << "Всего " << amount << " элементов, равных среднему:\n";
+            for (int index : indexes) {
+                std::cout << index << ' ';
+            }
+            std::cout << '\n';
             
             const auto sorted_start = std::chrono::steady_clock::now();
             std::vector<int> sorted_indexes = get_elements_average(arr_copy_sorted, average);
@@ -195,7 +200,7 @@ void search_menu(int (&arr)[N]){
             amount = sorted_indexes.size();
             std::cout << "Отсортированный массив: " << sorted_elapsed.count() << " microseconds\n";
             std::cout << "Всего " << amount << " элементов, равных среднему:\n";
-            for (int index : indexes) {
+            for (int index : sorted_indexes) {
                 std::cout << index << ' ';
             }
             std::cout << '\n';
@@ -359,23 +364,27 @@ int main() {
             }
             break;
         case 7: {
-            int amount;
+            if (!array_initialized) {
+                std::cout << "Сначала заполните массив.\n";
+                break;
+            }
+
+            int simple_amount;
             const auto enum_start = std::chrono::steady_clock::now();
-            amount = count_inverse_simple_enumeration(arr);
+            simple_amount = count_inverse_simple_enumeration(arr);
             const auto enum_end = std::chrono::steady_clock::now();
             const std::chrono::duration<double, std::micro> enum_elapsed = enum_end - enum_start;
-            std::cout << "Простой перебор: " << enum_elapsed.count() << " microseconds\n";
             int arr_copy[N];
             for (int i = 0; i < N; i++){
                 arr_copy[i] = arr[i];
             }
             const auto merge_start = std::chrono::steady_clock::now();
-            amount = merge_sort_inverse(arr_copy, 0, N - 1);
+            int merge_amount = merge_sort_inverse(arr_copy, 0, N - 1);
             const auto merge_end = std::chrono::steady_clock::now();
             const std::chrono::duration<double, std::micro> merge_elapsed = merge_end - merge_start;
-            std::cout << "Merge Sort: " << merge_elapsed.count() << " microseconds\n";
 
-            std::cout << amount << " инверсий\n";
+            std::cout << "Простой перебор: " << simple_amount << " инверсий  (" << enum_elapsed.count() << " microseconds)\n";
+            std::cout << "Merge Sort: " << merge_amount << " инверсий  (" << merge_elapsed.count() << " microseconds)\n";
             break;}
         case 0:
             std::cout << "Выход.\n";
