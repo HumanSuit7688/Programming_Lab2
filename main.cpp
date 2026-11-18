@@ -7,6 +7,9 @@
 #include "search_operations.hpp"
 #include "individual_task.hpp"
 
+constexpr int SEARCH_REPETITIONS = 10000;
+constexpr int SWAP_REPETITIONS = 100000;
+
 void print_main_menu() {
     std::cout << "\n===== Главное меню =====\n"
               << "1 - Заполнить массив случайными числами\n"
@@ -247,18 +250,26 @@ void search_menu(int (&arr)[N]){
                 std::cin.ignore(10000, '\n');
                 std::cout << "Ошибка: введите корректное целое число.\n";
             }
-            int index;
+            int index = -1;
             const auto linear_start = std::chrono::steady_clock::now();
-            index = linear_search(arr_copy_sorted, number);
+            for (int i = 0; i < SEARCH_REPETITIONS; ++i) {
+                index = linear_search(arr_copy_sorted, number);
+            }
             const auto linear_end = std::chrono::steady_clock::now();
             const std::chrono::duration<double, std::micro> linear_elapsed = linear_end - linear_start;
-            std::cout << "Линейный поиск: " << linear_elapsed.count() << " microseconds\n";
+            std::cout << "Линейный поиск (среднее): "
+                      << linear_elapsed.count() / SEARCH_REPETITIONS
+                      << " microseconds\n";
 
             const auto binary_start = std::chrono::steady_clock::now();
-            index = binary_search(arr_copy_sorted, number);
+            for (int i = 0; i < SEARCH_REPETITIONS; ++i) {
+                index = binary_search(arr_copy_sorted, number);
+            }
             const auto binary_end = std::chrono::steady_clock::now();
             const std::chrono::duration<double, std::micro> binary_elapsed = binary_end - binary_start;
-            std::cout << "Бинарный поиск: " << binary_elapsed.count() << " microseconds\n";
+            std::cout << "Бинарный поиск (среднее): "
+                      << binary_elapsed.count() / SEARCH_REPETITIONS
+                      << " microseconds\n";
 
             if (index != -1) {
                 std::cout << "Елемент есть, на позиции " << index << '\n';
@@ -353,11 +364,22 @@ int main() {
                     break;
                 }
 
+                int arr_copy[N];
+                for (int i = 0; i < N; ++i) {
+                    arr_copy[i] = arr[i];
+                }
+
                 const auto start = std::chrono::steady_clock::now();
-                std::swap(arr[id1], arr[id2]);
+                for (int i = 0; i < SWAP_REPETITIONS; ++i) {
+                    std::swap(arr_copy[id1], arr_copy[id2]);
+                }
                 const auto end = std::chrono::steady_clock::now();
                 const std::chrono::duration<double, std::micro> elapsed = end - start;
-                std::cout << elapsed.count() << " microseconds\n";
+
+                std::swap(arr[id1], arr[id2]);
+                std::cout << "Среднее время обмена: "
+                          << elapsed.count() / SWAP_REPETITIONS
+                          << " microseconds\n";
             }
             else {
                 std::cout << "Массив ещё не инициализирован\n";
