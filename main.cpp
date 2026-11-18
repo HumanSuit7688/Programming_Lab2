@@ -160,27 +160,25 @@ void search_menu(int (&arr)[N]){
         }
         case 4: {
             int average = get_average_min_max(arr);
+
             const auto start = std::chrono::steady_clock::now();
             std::vector<int> indexes = get_elements_average(arr, average);
             const auto end = std::chrono::steady_clock::now();
             const std::chrono::duration<double, std::micro> elapsed = end - start;
+
             int amount = indexes.size();
             std::cout << "Неотсортированный массив: " << elapsed.count() << " microseconds\n";
             std::cout << "Всего " << amount << " элементов, равных среднему:\n";
-            for (int index : indexes) {
-                std::cout << index << ' ';
-            }
-            std::cout << '\n';
-
+            
             const auto sorted_start = std::chrono::steady_clock::now();
             std::vector<int> sorted_indexes = get_elements_average(arr_copy_sorted, average);
             const auto sorted_end = std::chrono::steady_clock::now();
             const std::chrono::duration<double, std::micro> sorted_elapsed = sorted_end - sorted_start;
-            int sorted_amount = sorted_indexes.size();
 
+            amount = sorted_indexes.size();
             std::cout << "Отсортированный массив: " << sorted_elapsed.count() << " microseconds\n";
-            std::cout << "Всего " << sorted_amount << " элементов, равных среднему:\n";
-            for (int index : sorted_indexes) {
+
+            for (int index : indexes) {
                 std::cout << index << ' ';
             }
             std::cout << '\n';
@@ -227,7 +225,19 @@ void search_menu(int (&arr)[N]){
                 std::cin.ignore(10000, '\n');
                 std::cout << "Ошибка: введите корректное целое число.\n";
             }
-            int index = binary_search(arr_copy_sorted, number);
+
+            const auto linear_start = std::chrono::steady_clock::now();
+            int index = linear_search(arr_copy_sorted, number);
+            const auto linear_end = std::chrono::steady_clock::now();
+            const std::chrono::duration<double, std::micro> linear_elapsed = linear_end - linear_start;
+            std::cout << "Линейный поиск: " << linear_elapsed.count() << " microseconds\n";
+
+            const auto binary_start = std::chrono::steady_clock::now();
+            index = binary_search(arr_copy_sorted, number);
+            const auto binary_end = std::chrono::steady_clock::now();
+            const std::chrono::duration<double, std::micro> binary_elapsed = binary_end - binary_start;
+            std::cout << "Бинарный поиск: " << binary_elapsed.count() << " microseconds\n";
+
             if (index != -1) {
                 std::cout << "Елемент есть, на позиции " << index << '\n';
             }

@@ -54,7 +54,7 @@ std::vector<int> get_elements_average(const int (&arr)[N], int average) {
 
 int count_less_x(const int (&arr)[N], int x) {
     int l = 0;
-    int r = N - 1;
+    int r = N;
 
     while (l < r) {
         int mid = l + (r - l) / 2;
@@ -101,6 +101,15 @@ int binary_search(const int (&arr)[N], int target) {
         }
         else {
             l = mid + 1;
+        }
+    }
+    return -1;
+}
+
+int linear_search(const int (&arr)[N], int target) {
+    for (int i = 0; i < N; i++) {
+        if (target == arr[i]) {
+            return i;
         }
     }
     return -1;

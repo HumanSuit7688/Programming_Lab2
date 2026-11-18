@@ -29,3 +29,8 @@ int binary_search(
     const int (&arr)[N],
     int target
 );
+
+int linear_search(
+    const int (&arr)[N],
+    int target
+);
