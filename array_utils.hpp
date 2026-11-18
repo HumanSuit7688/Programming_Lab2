@@ -8,7 +8,7 @@ void generate_random_array(
     int r
 );
 
-void generate_manual_array(
+bool generate_manual_array(
     int (&arr)[N]
 );
 

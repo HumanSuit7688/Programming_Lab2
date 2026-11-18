@@ -1,4 +1,5 @@
 #include <iostream>
+#include <limits>
 #include <random>
 #include <utility>
 #include "array_utils.hpp"
@@ -16,12 +17,24 @@ void generate_random_array(int (&arr)[N], int l, int r) {
 
 }
 
-void generate_manual_array(int (&arr)[N]) {
+bool generate_manual_array(int (&arr)[N]) {
+    int input[N];
     for (int i = 0; i < N; i++) {
         int number;
-        std::cin >> number;
-        arr[i] = number;
+        while (!(std::cin >> number)) {
+            if (std::cin.eof()) {
+                return false;
+            }
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            std::cout << "Ошибка: введите целое число для элемента " << i << ".\n";
+        }
+        input[i] = number;
     }
+    for (int i = 0; i < N; i++) {
+        arr[i] = input[i];
+    }
+    return true;
 }
 
 void output_array(const int (&arr)[N]) {

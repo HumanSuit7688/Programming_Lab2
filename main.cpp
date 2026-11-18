@@ -315,7 +315,10 @@ int main() {
 
         case 2:
             std::cout << "Введите 100 целых чисел:\n";
-            generate_manual_array(arr);
+            if (!generate_manual_array(arr)) {
+                std::cout << "Ввод завершён.\n";
+                return 0;
+            }
             array_initialized = true;
             std::cout << "Массив заполнен вручную.\n";
             break;
