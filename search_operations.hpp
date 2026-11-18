@@ -14,3 +14,18 @@ std::vector<int> get_elements_average(
     const int (&arr)[N],
     int average
 );
+
+int count_less_x(
+    const int (&arr)[N],
+    int x
+);
+
+int count_more_x(
+    const int (&arr)[N],
+    int x
+);
+
+int binary_search(
+    const int (&arr)[N],
+    int target
+);

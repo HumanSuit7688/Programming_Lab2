@@ -1,5 +1,6 @@
 #include <iostream>
 #include <random>
+#include <utility>
 #include "array_utils.hpp"
 
 
@@ -28,4 +29,8 @@ void output_array(const int (&arr)[N]) {
         std::cout << element << ' ';
     }
     std::cout << '\n';
+}
+
+void swap_elevents(int (&arr)[N], int id1, int id2) {
+    std::swap(arr[id1], arr[id2]);
 }

@@ -15,3 +15,9 @@ void generate_manual_array(
 void output_array(
     const int (&arr)[N]
 );
+
+void swap_elevents(
+    int (&arr)[N], 
+    int id1, 
+    int id2
+);
