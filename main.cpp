@@ -5,9 +5,30 @@
 #include "array_utils.hpp"
 #include "sorts.hpp"
 #include "search_operations.hpp"
+#include "individual_task.hpp"
+
+void print_main_menu() {
+    std::cout << "\n===== Главное меню =====\n"
+              << "1 - Заполнить массив случайными числами\n"
+              << "2 - Заполнить массив вручную\n"
+              << "3 - Вывести массив\n"
+              << "4 - Сортировка\n"
+              << "5 - Поиск\n"
+              << "6 - Поменять местами элементы\n"
+              << "7 - Индивидуальное задание (количество инверсий)\n"
+              << "0 - Выйти\n";
+}
 
 void sort_menu(int (&arr)[N]){
     int choice = -1;
+
+    std::cout << "\n=== Сортировки ===\n"
+              << "1 - Bubble Sort\n"
+              << "2 - Insertion Sort\n"
+              << "3 - Selection Sort\n"
+              << "4 - Gnome Sort\n"
+              << "5 - Merge Sort\n"
+              << "0 - Выход\n";
 
     while (choice != 0) {
         int arr_copy[N];
@@ -15,13 +36,7 @@ void sort_menu(int (&arr)[N]){
             arr_copy[i] = arr[i];
         }
 
-        std::cout << "\n=== Сортировки ===\n"
-                    << "1 - Bubble Sort\n"
-                    << "2 - Insertion Sort\n"
-                    << "3 - Selection Sort\n"
-                    << "4 - Gnome Sort\n"
-                    << "5 - Merge Sort\n"
-                    << "0 - Выход\n\n";
+        std::cout << "\nКоманда: ";
         
         if (!(std::cin >> choice)) {
             std::cin.clear();
@@ -95,17 +110,18 @@ void search_menu(int (&arr)[N]){
         }
     insertion_sort(arr_copy_sorted);
 
+    std::cout << "\n=== Поиск ===\n"
+              << "1 - Максимальный элемент\n"
+              << "2 - Минимальный элемент\n"
+              << "3 - Среднее значение\n"
+              << "4 - Индексы элементов == среднему\n"
+              << "5 - Кол-во элементов < a\n"
+              << "6 - Кол-во элементов > b\n"
+              << "7 - Проверить наличие элемента\n"
+              << "0 - Выход\n";
 
     while(choice != 0) {
-        std::cout << "\n=== Поиск ===\n"
-                    << "1 - Максимальный элемент\n"
-                    << "2 - Минимальный элемент\n"
-                    << "3 - Среднее значение\n"
-                    << "4 - Индексы элементов == среднему\n"
-                    << "5 - Кол-во элементов < a\n"
-                    << "6 - Кол-во элементов > b\n"
-                    << "7 - Проверить наличие элемента\n"
-                    << "0 - Выход\n\n";
+        std::cout << "\nКоманда: ";
         
         if (!(std::cin >> choice)) {
             std::cin.clear();
@@ -116,8 +132,9 @@ void search_menu(int (&arr)[N]){
 
         switch (choice) {
         case 1: {
+            int max;
             auto start = std::chrono::steady_clock::now();
-            int max = get_max_from_array(arr);
+            max = get_max_from_array(arr);
             auto end = std::chrono::steady_clock::now();
             std::chrono::duration<double, std::micro> elapsed = end - start;
             std::cout << "Неотсортированый массив: "<< elapsed.count() << " microseconds\n";
@@ -133,8 +150,9 @@ void search_menu(int (&arr)[N]){
             break;
         }
         case 2: {
+            int min;
             auto start = std::chrono::steady_clock::now();
-            int min = get_min_from_array(arr);
+            min = get_min_from_array(arr);
             auto end = std::chrono::steady_clock::now();
             std::chrono::duration<double, std::micro> elapsed = end - start;
             std::cout << "Неотсортированый массив: "<< elapsed.count() << " microseconds\n";
@@ -168,7 +186,6 @@ void search_menu(int (&arr)[N]){
 
             int amount = indexes.size();
             std::cout << "Неотсортированный массив: " << elapsed.count() << " microseconds\n";
-            std::cout << "Всего " << amount << " элементов, равных среднему:\n";
             
             const auto sorted_start = std::chrono::steady_clock::now();
             std::vector<int> sorted_indexes = get_elements_average(arr_copy_sorted, average);
@@ -177,7 +194,7 @@ void search_menu(int (&arr)[N]){
 
             amount = sorted_indexes.size();
             std::cout << "Отсортированный массив: " << sorted_elapsed.count() << " microseconds\n";
-
+            std::cout << "Всего " << amount << " элементов, равных среднему:\n";
             for (int index : indexes) {
                 std::cout << index << ' ';
             }
@@ -210,8 +227,8 @@ void search_menu(int (&arr)[N]){
                 std::cin.ignore(10000, '\n');
                 std::cout << "Ошибка: введите корректное целое число.\n";
             }
-            int amount_less = count_more_x(arr_copy_sorted, b);
-            std::cout << amount_less << " элементов > " << b << '\n';
+            int amount_more = count_more_x(arr_copy_sorted, b);
+            std::cout << amount_more << " элементов > " << b << '\n';
             break;
         }
         case 7: {
@@ -225,9 +242,9 @@ void search_menu(int (&arr)[N]){
                 std::cin.ignore(10000, '\n');
                 std::cout << "Ошибка: введите корректное целое число.\n";
             }
-
+            int index;
             const auto linear_start = std::chrono::steady_clock::now();
-            int index = linear_search(arr_copy_sorted, number);
+            index = linear_search(arr_copy_sorted, number);
             const auto linear_end = std::chrono::steady_clock::now();
             const std::chrono::duration<double, std::micro> linear_elapsed = linear_end - linear_start;
             std::cout << "Линейный поиск: " << linear_elapsed.count() << " microseconds\n";
@@ -261,16 +278,10 @@ int main() {
     bool array_initialized = false;
     int choice = -1;
 
+    print_main_menu();
+
     while (choice != 0) {
-        std::cout << "\n===== Главное меню =====\n"
-                  << "1 - Заполнить массив случайными числами\n"
-                  << "2 - Заполнить массив вручную\n"
-                  << "3 - Вывести массив\n"
-                  << "4 - Сортировка\n"
-                  << "5 - Поиск\n"
-                  << "6 - Поменять местами элементы\n"
-                  << "0 - Выйти\n"
-                  << "Выберите пункт: ";
+        std::cout << "\nКоманда: ";
 
         if (!(std::cin >> choice)) {
             std::cin.clear();
@@ -306,6 +317,7 @@ int main() {
         case 4:
             if (array_initialized) {
                 sort_menu(arr);
+                print_main_menu();
             }
             else {
                 std::cout << "Массив ещё не инициализирован\n";
@@ -314,6 +326,7 @@ int main() {
         case 5:
             if (array_initialized) {
                 search_menu(arr);
+                print_main_menu();
             }
             else {
                 std::cout << "Массив ещё не инициализирован\n";
@@ -323,17 +336,47 @@ int main() {
             if (array_initialized) {
                 std::cout << "Введите два индекса через пробел:\n";
                 int id1, id2;
-                std::cin >> id1 >> id2;
+                if (!(std::cin >> id1 >> id2)) {
+                    std::cin.clear();
+                    std::cin.ignore(10000, '\n');
+                    std::cout << "Ошибка: введите два целых индекса.\n";
+                    break;
+                }
+
+                if (id1 < 0 || id1 >= N || id2 < 0 || id2 >= N) {
+                    std::cout << "Индексы выходят за границы массива\n";
+                    break;
+                }
+
                 const auto start = std::chrono::steady_clock::now();
                 std::swap(arr[id1], arr[id2]);
                 const auto end = std::chrono::steady_clock::now();
                 const std::chrono::duration<double, std::micro> elapsed = end - start;
-                std::cout << elapsed.count() << " microseconds\n";   
+                std::cout << elapsed.count() << " microseconds\n";
             }
             else {
                 std::cout << "Массив ещё не инициализирован\n";
             }
             break;
+        case 7: {
+            int amount;
+            const auto enum_start = std::chrono::steady_clock::now();
+            amount = count_inverse_simple_enumeration(arr);
+            const auto enum_end = std::chrono::steady_clock::now();
+            const std::chrono::duration<double, std::micro> enum_elapsed = enum_end - enum_start;
+            std::cout << "Простой перебор: " << enum_elapsed.count() << " microseconds\n";
+            int arr_copy[N];
+            for (int i = 0; i < N; i++){
+                arr_copy[i] = arr[i];
+            }
+            const auto merge_start = std::chrono::steady_clock::now();
+            amount = merge_sort_inverse(arr_copy, 0, N - 1);
+            const auto merge_end = std::chrono::steady_clock::now();
+            const std::chrono::duration<double, std::micro> merge_elapsed = merge_end - merge_start;
+            std::cout << "Merge Sort: " << merge_elapsed.count() << " microseconds\n";
+
+            std::cout << amount << " инверсий\n";
+            break;}
         case 0:
             std::cout << "Выход.\n";
             break;
